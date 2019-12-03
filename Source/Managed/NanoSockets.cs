@@ -1,6 +1,6 @@
 /****************************** Module Header ******************************\
-* Module Name:  Sockets.cs
-* Project:      Sockets
+* Module Name:  NanoSockets.cs
+* Project:      NanoSockets
 * Copyright (c) 2019 Stanislav Denisov
 *
 * Lightweight UDP sockets abstraction for rapid implementation of message-oriented protocols
