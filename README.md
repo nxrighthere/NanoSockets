@@ -8,7 +8,7 @@ This is a highly portable, lightweight and straightforward, zero-cost abstractio
 
 Building
 --------
-The native library can be built using [CMake](https://cmake.org/download/) with GCC or Clang.
+The native library can be built using [CMake](https://cmake.org/download/) and requires GCC or Clang with a building toolchain.
 
 A managed assembly can be built using any available compiling platform that supports C# 3.0 or higher.
 
