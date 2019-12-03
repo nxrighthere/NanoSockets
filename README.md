@@ -137,7 +137,7 @@ Contains a blittable structure with anonymous host data and port number.
 
 `UDP.SetNonBlocking(Socket socket)` sets a non-blocking I/O mode for a socket. Returns status with a result.
 
-`UDP.Poll(Socket socket, long timeout)` determines the status of a socket and waiting if necessary before receiving. The timeout parameter may be specified in milliseconds to control polling duration. If a timeout of 0 is specified, this function will return immediately if a socket is not ready for receiving. Otherwise, it will return 1.
+`UDP.Poll(Socket socket, long timeout)` determines the status of a socket and waiting if necessary before receiving. The timeout parameter may be specified in milliseconds to control polling duration. If a timeout of 0 is specified, this function will return immediately. If the time limit expired it will return 0. If a socket is ready for receiving it will return 1. Otherwise, it will return < 0 if an error occurred.
 
 `UDP.Send(Socket socket, ref Address address, byte[] buffer, int bufferLength)` sends a message to the specified address of a receiver. The address parameter can be set to `IntPtr.Zero` if a socket is connected to an address. A pointer `IntPtr` to a native buffer can be used instead of a reference to a byte array. Returns the total number of bytes sent, which can be less than the number indicated by the buffer length. Otherwise, it will return < 0 if an error occurred.
 
