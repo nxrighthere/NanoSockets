@@ -4,7 +4,7 @@
 
 [![GitHub release](https://img.shields.io/github/release/nxrighthere/NanoSockets.svg)](https://github.com/nxrighthere/NanoSockets/releases) [![NuGet](https://img.shields.io/nuget/v/NanoSockets.svg)](https://www.nuget.org/packages/NanoSockets/) [![PayPal](https://drive.google.com/uc?id=1OQrtNBVJehNVxgPf6T6yX1wIysz1ElLR)](https://www.paypal.me/nxrighthere) [![Bountysource](https://drive.google.com/uc?id=19QRobscL8Ir2RL489IbVjcw3fULfWS_Q)](https://salt.bountysource.com/checkout/amount?team=nxrighthere) [![Coinbase](https://drive.google.com/uc?id=1LckuF-IAod6xmO9yF-jhTjq1m-4f7cgF)](https://commerce.coinbase.com/checkout/03e11816-b6fc-4e14-b974-29a1d0886697)
 
-This is a highly portable, lightweight and straightforward, zero-cost abstraction of UDP sockets with dual-stack IPv4/IPv6 support for rapid implementation of message-oriented protocols. The library is designed for cross-language compatibility with C, C++, C# and other languages.
+This is a highly portable, lightweight and straightforward, zero-cost abstraction of UDP sockets with dual-stack IPv4/IPv6 support for rapid implementation of message-oriented protocols. The library is designed for cross-language compatibility with C, C++, C# and other languages. For .NET environment, functions support blittable pointers as an alternative to managed types for usage with unmanaged memory allocator.
 
 Building
 --------
@@ -95,5 +95,60 @@ while (!Console.KeyAvailable) {
 UDP.Destroy(ref client);
 ```
 
+### Unity
+Usage is almost the same as in the .NET environment, except that the console functions must be replaced with functions provided by Unity. If the `UDP.Poll()` will be called in a game loop, then make sure that the timeout parameter set to 0 which means non-blocking. Also, keep Unity run in background by enabling the appropriate option in the player settings.
+
 API reference
 --------
+### Enumerations
+#### Status
+Definitions of status types for functions:
+
+`OK`
+
+`Error`
+
+### Structures
+#### Socket
+Contains a blittable structure with socket handle.
+
+`Socket.handle` a socket handle.
+
+`Socket.IsCreated` checks if a socket is created.
+
+#### Address
+Contains a blittable structure with anonymous host data and port number.
+
+`Address.port` a port number.
+
+### Classes
+#### UDP
+`UDP.Initialize()` 
+
+`UDP.Deinitialize()` 
+
+`UDP.Create(int sendBufferSize, int receiveBufferSize)` 
+
+`UDP.Destroy(ref Socket socket)` 
+
+`UDP.Bind(Socket socket, ref Address address)` 
+
+`UDP.Connect(Socket socket, ref Address address)` 
+
+`UDP.SetNonBlocking(Socket socket)` 
+
+`UDP.Poll(Socket socket, long milliseconds)` 
+
+`UDP.Send(Socket socket, ref Address address, byte[] buffer, int bufferLength)` 
+
+`UDP.Receive(Socket socket, ref Address address, byte[] buffer, int bufferLength)` 
+
+`UDP.IsEqual(ref Address left, ref Address right)` 
+
+`UDP.SetIP(ref Address address, string ip)` 
+
+`UDP.GetIP(ref Address address, StringBuilder ip, int ipLength)` 
+
+`UDP.SetHostName(ref Address address, string name)` 
+
+`UDP.GetHostName(ref Address address, StringBuilder name, int nameLength)` 
