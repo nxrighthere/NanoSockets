@@ -123,21 +123,21 @@ Contains a blittable structure with anonymous host data and port number.
 
 ### Classes
 #### UDP
-`UDP.Initialize()` 
+`UDP.Initialize()` initializes the native library. Should be called before starting the work. Returns status with a result.
 
-`UDP.Deinitialize()` 
+`UDP.Deinitialize()` deinitializes the native library. Should be called after the work is done.
 
-`UDP.Create(int sendBufferSize, int receiveBufferSize)` 
+`UDP.Create(int sendBufferSize, int receiveBufferSize)` creates a new socket with a specified size of buffers for sending and receiving. Returns the `Socket` structure with the handle.
 
-`UDP.Destroy(ref Socket socket)` 
+`UDP.Destroy(ref Socket socket)` destroys a socket and reset the handle.
 
-`UDP.Bind(Socket socket, ref Address address)` 
+`UDP.Bind(Socket socket, ref Address address)` assigns an address to a socket. Returns 0 on success or != 0 on failure.
 
-`UDP.Connect(Socket socket, ref Address address)` 
+`UDP.Connect(Socket socket, ref Address address)` connects a socket to an address. Returns 0 on success or != 0 on failure. 
 
-`UDP.SetNonBlocking(Socket socket)` 
+`UDP.SetNonBlocking(Socket socket)` sets a non-blocking I/O mode for a socket.
 
-`UDP.Poll(Socket socket, long milliseconds)` 
+`UDP.Poll(Socket socket, long timeout)` determines the status of a socket and waiting if necessary before receiving. The timeout parameter may be specified in milliseconds to control polling duration. If a timeout of 0 is specified, this function will return immediately if a socket is not ready for receiving. Otherwise, it will return 1.
 
 `UDP.Send(Socket socket, ref Address address, byte[] buffer, int bufferLength)` 
 
