@@ -285,15 +285,15 @@ extern "C" {
 		return NANOSOCKETS_STATUS_OK;
 	}
 
-	int nanosockets_poll(NanoSocket socket, long milliseconds) {
+	int nanosockets_poll(NanoSocket socket, long timeout) {
 		fd_set set = { 0 };
 		struct timeval time = { 0 };
 
 		FD_ZERO(&set);
 		FD_SET(socket, &set);
 
-		time.tv_sec = milliseconds / 1000;
-		time.tv_usec = (milliseconds % 1000) * 1000;
+		time.tv_sec = timeout / 1000;
+		time.tv_usec = (timeout % 1000) * 1000;
 
 		return select(socket + 1, &set, NULL, NULL, &time);
 	}

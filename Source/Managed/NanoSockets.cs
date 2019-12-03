@@ -80,7 +80,7 @@ namespace NanoSockets {
 		public static extern Status SetNonBlocking(Socket socket);
 
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_poll", CallingConvention = CallingConvention.Cdecl)]
-		public static extern int Poll(Socket socket, long milliseconds);
+		public static extern int Poll(Socket socket, long timeout);
 
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_send", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int Send(Socket socket, IntPtr address, IntPtr buffer, int bufferLength);
