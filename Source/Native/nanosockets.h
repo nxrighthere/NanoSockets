@@ -77,7 +77,7 @@ extern "C" {
 
 	NANOSOCKETS_API NanoStatus nanosockets_initialize(void);
 
-	NANOSOCKETS_API void nanosockets_detiniailize(void);
+	NANOSOCKETS_API void nanosockets_deinitialize(void);
 
 	NANOSOCKETS_API NanoSocket nanosockets_create(int, int);
 
@@ -183,7 +183,7 @@ extern "C" {
 		return NANOSOCKETS_STATUS_OK;
 	}
 
-	void nanosockets_detiniailize(void) {
+	void nanosockets_deinitialize(void) {
 		#ifdef NANOSOCKETS_WINDOWS
 			WSACleanup();
 		#endif

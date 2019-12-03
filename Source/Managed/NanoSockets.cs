@@ -54,7 +54,7 @@ namespace NanoSockets {
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_initialize", CallingConvention = CallingConvention.Cdecl)]
 		public static extern Status Initialize();
 
-		[DllImport(nativeLibrary, EntryPoint = "nanosockets_detiniailize", CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(nativeLibrary, EntryPoint = "nanosockets_deinitialize", CallingConvention = CallingConvention.Cdecl)]
 		public static extern void Deinitialize();
 
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_create", CallingConvention = CallingConvention.Cdecl)]
