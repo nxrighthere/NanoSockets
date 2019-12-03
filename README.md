@@ -131,24 +131,24 @@ Contains a blittable structure with anonymous host data and port number.
 
 `UDP.Destroy(ref Socket socket)` destroys a socket and reset the handle.
 
-`UDP.Bind(Socket socket, ref Address address)` assigns an address to a socket. Returns 0 on success or != 0 on failure.
+`UDP.Bind(Socket socket, ref Address address)` assigns an address to a socket. The address parameter can be set to `IntPtr.Zero` to let the operating system assign any address. Returns 0 on success or != 0 on failure.
 
 `UDP.Connect(Socket socket, ref Address address)` connects a socket to an address. Returns 0 on success or != 0 on failure. 
 
-`UDP.SetNonBlocking(Socket socket)` sets a non-blocking I/O mode for a socket.
+`UDP.SetNonBlocking(Socket socket)` sets a non-blocking I/O mode for a socket. Returns status with a result.
 
 `UDP.Poll(Socket socket, long timeout)` determines the status of a socket and waiting if necessary before receiving. The timeout parameter may be specified in milliseconds to control polling duration. If a timeout of 0 is specified, this function will return immediately if a socket is not ready for receiving. Otherwise, it will return 1.
 
-`UDP.Send(Socket socket, ref Address address, byte[] buffer, int bufferLength)` 
+`UDP.Send(Socket socket, ref Address address, byte[] buffer, int bufferLength)` sends a message to the specified address of a receiver. The address parameter can be set to `IntPtr.Zero` if a socket is connected to an address. A pointer `IntPtr` to a native buffer can be used instead of a reference to a byte array. Returns the total number of bytes sent, which can be less than the number indicated by the buffer length. Otherwise, it will return < 0 if an error occurred.
 
-`UDP.Receive(Socket socket, ref Address address, byte[] buffer, int bufferLength)` 
+`UDP.Receive(Socket socket, ref Address address, byte[] buffer, int bufferLength)` receives a message and fills the address of a sender. The address parameter can be set to `IntPtr.Zero` to skip the address determination. A pointer `IntPtr` to a native buffer can be used instead of a reference to a byte array. Returns the total number of bytes received. Otherwise, it will return < 0 if an error occurred.
 
-`UDP.IsEqual(ref Address left, ref Address right)` 
+`UDP.IsEqual(ref Address left, ref Address right)` compares two addresses for equality. Returns status with a result.
 
-`UDP.SetIP(ref Address address, string ip)` 
+`UDP.SetIP(ref Address address, string ip)` sets an IP address. A pointer `IntPtr` can be used instead of the immutable string. Returns status with a result.
 
-`UDP.GetIP(ref Address address, StringBuilder ip, int ipLength)` 
+`UDP.GetIP(ref Address address, StringBuilder ip, int ipLength)` gets an IP address. The capacity of the mutable string should be equal to `UDP.hostNameSize` constant field. A pointer `IntPtr` can be used instead of the mutable string. Returns status with a result.
 
-`UDP.SetHostName(ref Address address, string name)` 
+`UDP.SetHostName(ref Address address, string name)` sets host name or an IP address. A pointer `IntPtr` can be used instead of the immutable string. Returns status with a result.
 
-`UDP.GetHostName(ref Address address, StringBuilder name, int nameLength)` 
+`UDP.GetHostName(ref Address address, StringBuilder name, int nameLength)` attempts to do a reverse lookup from the address. A pointer `IntPtr` can be used instead of the mutable string. Returns status with a result.
