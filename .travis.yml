@@ -1,0 +1,15 @@
+os:
+  - osx
+
+language: c
+
+compiler: clang
+
+script:
+  - cmake ./Source/Native/ -DCMAKE_BUILD_TYPE=Release -DNANOSOCKETS_SHARED=1
+  - cmake --build .
+
+deploy:
+  provider: surge
+  domain: nxrighthere.surge.sh
+  skip_cleanup: true
