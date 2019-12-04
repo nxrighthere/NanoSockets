@@ -141,7 +141,7 @@ Contains a blittable structure with anonymous host data and port number.
 
 `UDP.Send(Socket socket, ref Address address, byte[] buffer, int bufferLength)` sends a message to the specified address of a receiver. The address parameter can be set to `IntPtr.Zero` if a socket is connected to an address. A pointer `IntPtr` to a native buffer can be used instead of a reference to a byte array. Returns the total number of bytes sent, which can be less than the number indicated by the buffer length. Otherwise, it will return < 0 if an error occurred.
 
-`UDP.Receive(Socket socket, ref Address address, byte[] buffer, int bufferLength)` receives a message and fills the address of a sender. The address parameter can be set to `IntPtr.Zero` to skip the address obtainment. A pointer `IntPtr` to a native buffer can be used instead of a reference to a byte array. Returns the total number of bytes received. Otherwise, it will return < 0 if an error occurred.
+`UDP.Receive(Socket socket, ref Address address, byte[] buffer, int bufferLength)` receives a message and obtains the address of a sender. The address parameter can be set to `IntPtr.Zero` to skip the address obtainment. A pointer `IntPtr` to a native buffer can be used instead of a reference to a byte array. Returns the total number of bytes received. Otherwise, it will return < 0 if an error occurred.
 
 `UDP.IsEqual(ref Address left, ref Address right)` compares two addresses for equality. Returns status with a result.
 
