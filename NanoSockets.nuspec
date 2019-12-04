@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NanoSockets</id>
+    <version>1.0.0</version>
+    <title>NanoSockets</title>
+    <authors>Stanislav Denisov</authors>
+    <owners>nxrighthere</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="file">license\license.txt</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <projectUrl>https://github.com/nxrighthere/NanoSockets</projectUrl>
+    <description>Lightweight UDP sockets abstraction for rapid implementation of message-oriented protocols</description>
+    <summary></summary>
+    <releaseNotes></releaseNotes>
+    <copyright>(c) 2019 Stanislav Denisov</copyright>
+    <tags>networking udp ipv4 ipv6 gamedev</tags>
+  </metadata>
+</package>
