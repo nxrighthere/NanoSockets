@@ -42,7 +42,7 @@ namespace NanoSockets {
 		}
 	}
 
-	[StructLayout(LayoutKind.Explicit, Size = 20)]
+	[StructLayout(LayoutKind.Explicit, Size = 18)]
 	public struct Address {
 		[FieldOffset(16)]
 		public ushort port;
