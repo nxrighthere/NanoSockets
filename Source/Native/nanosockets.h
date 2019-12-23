@@ -38,7 +38,7 @@
 	#define NANOSOCKETS_MAC 3
 #endif
 
-#if defined (NANOSOCKETS_WINDOWS) && defined(NANOSOCKETS_DLL)
+#if defined(NANOSOCKETS_WINDOWS) && defined(NANOSOCKETS_DLL)
 	#ifdef NANOSOCKETS_IMPLEMENTATION
 		#define NANOSOCKETS_API __declspec(dllexport)
 	#else
@@ -49,8 +49,7 @@
 #endif
 
 #ifdef NANOSOCKETS_WINDOWS
-	#include <inaddr.h>
-	#include <in6addr.h>
+	#include <ws2tcpip.h>
 #else
 	#include <netinet/in.h>
 #endif
@@ -121,9 +120,7 @@ extern "C" {
 
 	#include <string.h>
 
-	#ifdef NANOSOCKETS_WINDOWS
-		#include <ws2tcpip.h>
-	#else
+	#ifndef NANOSOCKETS_WINDOWS
 		#include <arpa/inet.h>
 		#include <fcntl.h>
 		#include <netdb.h>
@@ -295,6 +292,7 @@ extern "C" {
 		time.tv_sec = timeout / 1000;
 		time.tv_usec = (timeout % 1000) * 1000;
 
+		#pragma warning(suppress: 4244)
 		return select(socket + 1, &set, NULL, NULL, &time);
 	}
 
