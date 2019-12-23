@@ -21,7 +21,7 @@ if (NANOSOCKETS_STATIC)
 endif()
 
 if (NANOSOCKETS_SHARED)
-    add_definitions(-DNANOSOCEKTS_DLL)
+    add_definitions(-DNANOSOCKETS_DLL)
     add_library(nanosockets SHARED nanosockets.c ${SOURCES})
 
     if (NOT UNIX)
