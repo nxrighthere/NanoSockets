@@ -28,7 +28,7 @@
 
 #define NANOSOCKETS_VERSION_MAJOR 1
 #define NANOSOCKETS_VERSION_MINOR 0
-#define NANOSOCKETS_VERSION_PATCH 1
+#define NANOSOCKETS_VERSION_PATCH 2
 
 #ifdef _WIN32
 	#define NANOSOCKETS_WINDOWS 1
@@ -101,6 +101,8 @@ extern "C" {
 
 	NANOSOCKETS_API int nanosockets_receive(NanoSocket, NanoAddress*, uint8_t*, int);
 
+	NANOSOCKETS_API NanoStatus nanosockets_address_get(NanoSocket, NanoAddress*);
+
 	NANOSOCKETS_API NanoStatus nanosockets_address_is_equal(const NanoAddress*, const NanoAddress*);
 
 	NANOSOCKETS_API NanoStatus nanosockets_address_set_ip(NanoAddress*, const char*);
@@ -168,6 +170,23 @@ extern "C" {
 		}
 
 		return (s - source - 1);
+	}
+
+	inline static void nanosockets_address_extract(NanoAddress* address, struct sockaddr_storage* addressStorage) {
+		if (addressStorage->ss_family == AF_INET) {
+			struct sockaddr_in* socketAddress = (struct sockaddr_in*)addressStorage;
+
+			memset(address, 0, sizeof(address->ipv4.zeros));
+
+			address->ipv4.ffff = 0xFFFF;
+			address->ipv4.ip = socketAddress->sin_addr;
+			address->port = NANOSOCKETS_NET_TO_HOST_16(socketAddress->sin_port);
+		} else if (addressStorage->ss_family == AF_INET6) {
+			struct sockaddr_in6* socketAddress = (struct sockaddr_in6*)addressStorage;
+
+			address->ipv6 = socketAddress->sin6_addr;
+			address->port = NANOSOCKETS_NET_TO_HOST_16(socketAddress->sin6_port);
+		}
 	}
 
 	NanoStatus nanosockets_initialize(void) {
@@ -314,24 +333,22 @@ extern "C" {
 
 		int socketBytes = recvfrom(socket, (char*)buffer, bufferLength, 0, (struct sockaddr*)&addressStorage, &addressLength);
 
-		if (address != NULL) {
-			if (addressStorage.ss_family == AF_INET) {
-				struct sockaddr_in* socketAddress = (struct sockaddr_in*)&addressStorage;
-
-				memset(address, 0, sizeof(address->ipv4.zeros));
-
-				address->ipv4.ffff = 0xFFFF;
-				address->ipv4.ip = socketAddress->sin_addr;
-				address->port = NANOSOCKETS_NET_TO_HOST_16(socketAddress->sin_port);
-			} else if (addressStorage.ss_family == AF_INET6) {
-				struct sockaddr_in6* socketAddress = (struct sockaddr_in6*)&addressStorage;
-
-				address->ipv6 = socketAddress->sin6_addr;
-				address->port = NANOSOCKETS_NET_TO_HOST_16(socketAddress->sin6_port);
-			}
-		}
+		if (address != NULL)
+			nanosockets_address_extract(address, &addressStorage);
 
 		return socketBytes;
+	}
+
+	NanoStatus nanosockets_address_get(NanoSocket socket, NanoAddress* address) {
+		struct sockaddr_storage addressStorage = { 0 };
+		socklen_t addressLength = sizeof(addressStorage);
+
+		if (getsockname(socket, (struct sockaddr*)&addressStorage, &addressLength) == -1)
+			return NANOSOCKETS_STATUS_ERROR;
+
+		nanosockets_address_extract(address, &addressStorage);
+
+		return NANOSOCKETS_STATUS_OK;
 	}
 
 	NanoStatus nanosockets_address_is_equal(const NanoAddress* left, const NanoAddress* right) {

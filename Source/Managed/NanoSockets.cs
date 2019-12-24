@@ -109,6 +109,9 @@ namespace NanoSockets {
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_receive", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int Receive(Socket socket, ref Address address, byte[] buffer, int bufferLength);
 
+		[DllImport(nativeLibrary, EntryPoint = "nanosockets_address_get", CallingConvention = CallingConvention.Cdecl)]
+		public static extern Status GetAddress(Socket socket, ref Address address);
+
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_address_is_equal", CallingConvention = CallingConvention.Cdecl)]
 		public static extern Status IsEqual(ref Address left, ref Address right);
 
