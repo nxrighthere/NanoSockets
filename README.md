@@ -143,6 +143,8 @@ Contains a blittable structure with anonymous host data and port number.
 
 `UDP.Receive(Socket socket, ref Address address, byte[] buffer, int bufferLength)` receives a message and obtains the address of a sender. The address parameter can be set to `IntPtr.Zero` to skip the address obtainment. A pointer `IntPtr` to a native buffer can be used instead of a reference to a byte array. Returns the total number of bytes received. Otherwise, it will return < 0 if an error occurred.
 
+`UDP.GetAddress(Socket socket, ref Address address)` gets an address from a bound or connected socket. This call is especially useful to determine the local association that has been assigned by the operating system.
+
 `UDP.IsEqual(ref Address left, ref Address right)` compares two addresses for equality. Returns status with a result.
 
 `UDP.SetIP(ref Address address, string ip)` sets an IP address. A pointer `IntPtr` can be used instead of the immutable string. Returns status with a result.
