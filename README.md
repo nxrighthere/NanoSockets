@@ -18,6 +18,11 @@ You can grab compiled libraries from the [release](https://github.com/nxrighther
 
 Binaries are provided only for traditional platforms: Windows, Linux, and macOS (x64).
 
+Supported OS versions:
+- Windows 7 or higher
+- Linux 4.4 or higher
+- macOS 10.12 or higher
+
 Usage
 --------
 Before starting to work, the library should be initialized using `NanoSockets.UDP.Initialize();` function.
