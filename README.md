@@ -140,6 +140,10 @@ Contains a blittable structure with anonymous host data and port number.
 
 `UDP.Connect(Socket socket, ref Address address)` connects a socket to an address. Returns 0 on success or != 0 on failure. 
 
+`UDP.GetOption(Socket socket, int level, int optionName, ref int optionValue, ref int optionLength)` gets the current value for a socket option associated with a socket.
+
+`UDP.SetOption(Socket socket, int level, int optionName, ref int optionValue, int optionLength)` sets the current value for a socket option associated with a socket. This function could be used to set platform-specific options that were not specified at socket creation by default.
+
 `UDP.SetNonBlocking(Socket socket)` sets a non-blocking I/O mode for a socket. Returns status with a result.
 
 `UDP.Poll(Socket socket, long timeout)` determines the status of a socket and waiting if necessary. This function can be used for readiness-oriented receiving. The timeout parameter may be specified in milliseconds to control polling duration. If a timeout of 0 is specified, this function will return immediately. If the time limit expired it will return 0. If a socket is ready for receiving it will return 1. Otherwise, it will return < 0 if an error occurred.
