@@ -142,7 +142,7 @@ Contains a blittable structure with anonymous host data and port number.
 
 `UDP.GetOption(Socket socket, int level, int optionName, ref int optionValue, ref int optionLength)` gets the current value for a socket option associated with a socket.
 
-`UDP.SetOption(Socket socket, int level, int optionName, ref int optionValue, int optionLength)` sets the current value for a socket option associated with a socket. This function could be used to set platform-specific options that were not specified at socket creation by default.
+`UDP.SetOption(Socket socket, int level, int optionName, ref int optionValue, int optionLength)` sets the current value for a socket option associated with a socket. This function can be used to set platform-specific options that were not specified at socket creation by default.
 
 `UDP.SetNonBlocking(Socket socket)` sets a non-blocking I/O mode for a socket. Returns status with a result.
 
