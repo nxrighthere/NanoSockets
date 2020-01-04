@@ -28,7 +28,7 @@
 
 #define NANOSOCKETS_VERSION_MAJOR 1
 #define NANOSOCKETS_VERSION_MINOR 0
-#define NANOSOCKETS_VERSION_PATCH 2
+#define NANOSOCKETS_VERSION_PATCH 3
 
 #ifdef _WIN32
 	#define NANOSOCKETS_WINDOWS 1
@@ -93,6 +93,10 @@ extern "C" {
 
 	NANOSOCKETS_API int nanosockets_connect(NanoSocket, const NanoAddress*);
 
+	NANOSOCKETS_API NanoStatus nanosockets_get_option(NanoSocket, int, int, int*, int*);
+
+	NANOSOCKETS_API NanoStatus nanosockets_set_option(NanoSocket, int, int, const int*, int);
+
 	NANOSOCKETS_API NanoStatus nanosockets_set_nonblocking(NanoSocket);
 
 	NANOSOCKETS_API int nanosockets_poll(NanoSocket, long);
@@ -149,8 +153,8 @@ extern "C" {
 	}
 
 	inline static size_t nanosockets_string_copy(char* destination, const char* source, size_t length) {
-		char *d = destination;
-		const char *s = source;
+		char* d = destination;
+		const char* s = source;
 		size_t n = length;
 
 		if (n != 0 && --n != 0) {
@@ -285,6 +289,20 @@ extern "C" {
 		return connect(socket, (struct sockaddr*)&socketAddress, sizeof(socketAddress));
 	}
 
+	NanoStatus nanosockets_get_option(NanoSocket socket, int level, int optionName, int* optionValue, int* optionLength) {
+		if (getsockopt(socket, level, optionName, (char*)optionValue, optionLength) == 0)
+			return NANOSOCKETS_STATUS_OK;
+		else
+			return NANOSOCKETS_STATUS_ERROR;
+	}
+
+	NanoStatus nanosockets_set_option(NanoSocket socket, int level, int optionName, const int* optionValue, int optionLength) {
+		if (setsockopt(socket, level, optionName, (char*)optionValue, optionLength) == 0)
+			return NANOSOCKETS_STATUS_OK;
+		else
+			return NANOSOCKETS_STATUS_ERROR;
+	}
+
 	NanoStatus nanosockets_set_nonblocking(NanoSocket socket) {
 		#ifdef NANOSOCKETS_WINDOWS
 			DWORD nonBlocking = 1;
@@ -324,7 +342,7 @@ extern "C" {
 			socketAddress.sin6_port = NANOSOCKETS_HOST_TO_NET_16(address->port);
 		}
 
-		return sendto(socket, (const char *)buffer, bufferLength, 0, (address != NULL ? (struct sockaddr*)&socketAddress : NULL), sizeof(socketAddress));
+		return sendto(socket, (const char*)buffer, bufferLength, 0, (address != NULL ? (struct sockaddr*)&socketAddress : NULL), sizeof(socketAddress));
 	}
 
 	int nanosockets_receive(NanoSocket socket, NanoAddress* address, uint8_t* buffer, int bufferLength) {

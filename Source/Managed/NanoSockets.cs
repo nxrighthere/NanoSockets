@@ -76,6 +76,12 @@ namespace NanoSockets {
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_connect", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int Connect(Socket socket, ref Address address);
 
+		[DllImport(nativeLibrary, EntryPoint = "nanosockets_get_option", CallingConvention = CallingConvention.Cdecl)]
+		public static extern Status GetOption(Socket socket, int level, int optionName, ref int optionValue, ref int optionLength);
+
+		[DllImport(nativeLibrary, EntryPoint = "nanosockets_set_option", CallingConvention = CallingConvention.Cdecl)]
+		public static extern Status SetOption(Socket socket, int level, int optionName, ref int optionValue, int optionLength);
+
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_set_nonblocking", CallingConvention = CallingConvention.Cdecl)]
 		public static extern Status SetNonBlocking(Socket socket);
 
