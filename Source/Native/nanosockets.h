@@ -228,13 +228,13 @@ extern "C" {
 		if (socketHandle > -1) {
 			int onlyIPv6 = 0;
 
-			if (setsockopt(socketHandle, IPPROTO_IPV6, IPV6_V6ONLY, (char*)&onlyIPv6, sizeof(onlyIPv6)) != 0)
+			if (setsockopt(socketHandle, IPPROTO_IPV6, IPV6_V6ONLY, (const char*)&onlyIPv6, sizeof(onlyIPv6)) != 0)
 				goto destroy;
 
-			if (setsockopt(socketHandle, SOL_SOCKET, SO_SNDBUF, (char*)&sendBufferSize, sizeof(sendBufferSize)) != 0)
+			if (setsockopt(socketHandle, SOL_SOCKET, SO_SNDBUF, (const char*)&sendBufferSize, sizeof(sendBufferSize)) != 0)
 				goto destroy;
 
-			if (setsockopt(socketHandle, SOL_SOCKET, SO_RCVBUF, (char*)&receiveBufferSize, sizeof(receiveBufferSize)) != 0)
+			if (setsockopt(socketHandle, SOL_SOCKET, SO_RCVBUF, (const char*)&receiveBufferSize, sizeof(receiveBufferSize)) != 0)
 				goto destroy;
 
 			goto create;
@@ -290,14 +290,14 @@ extern "C" {
 	}
 
 	NanoStatus nanosockets_get_option(NanoSocket socket, int level, int optionName, int* optionValue, int* optionLength) {
-		if (getsockopt(socket, level, optionName, (char*)optionValue, optionLength) == 0)
+		if (getsockopt(socket, level, optionName, (char*)optionValue, (socklen_t*)optionLength) == 0)
 			return NANOSOCKETS_STATUS_OK;
 		else
 			return NANOSOCKETS_STATUS_ERROR;
 	}
 
 	NanoStatus nanosockets_set_option(NanoSocket socket, int level, int optionName, const int* optionValue, int optionLength) {
-		if (setsockopt(socket, level, optionName, (char*)optionValue, optionLength) == 0)
+		if (setsockopt(socket, level, optionName, (const char*)optionValue, optionLength) == 0)
 			return NANOSOCKETS_STATUS_OK;
 		else
 			return NANOSOCKETS_STATUS_ERROR;
