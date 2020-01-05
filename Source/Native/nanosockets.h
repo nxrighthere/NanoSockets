@@ -176,17 +176,17 @@ extern "C" {
 		return (s - source - 1);
 	}
 
-	inline static void nanosockets_address_extract(NanoAddress* address, struct sockaddr_storage* addressStorage) {
-		if (addressStorage->ss_family == AF_INET) {
-			struct sockaddr_in* socketAddress = (struct sockaddr_in*)addressStorage;
+	inline static void nanosockets_address_extract(NanoAddress* address, const struct sockaddr_storage* source) {
+		if (source->ss_family == AF_INET) {
+			struct sockaddr_in* socketAddress = (struct sockaddr_in*)source;
 
 			memset(address, 0, sizeof(address->ipv4.zeros));
 
 			address->ipv4.ffff = 0xFFFF;
 			address->ipv4.ip = socketAddress->sin_addr;
 			address->port = NANOSOCKETS_NET_TO_HOST_16(socketAddress->sin_port);
-		} else if (addressStorage->ss_family == AF_INET6) {
-			struct sockaddr_in6* socketAddress = (struct sockaddr_in6*)addressStorage;
+		} else if (source->ss_family == AF_INET6) {
+			struct sockaddr_in6* socketAddress = (struct sockaddr_in6*)source;
 
 			address->ipv6 = socketAddress->sin6_addr;
 			address->port = NANOSOCKETS_NET_TO_HOST_16(socketAddress->sin6_port);
