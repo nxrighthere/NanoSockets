@@ -93,9 +93,9 @@ extern "C" {
 
 	NANOSOCKETS_API int nanosockets_connect(NanoSocket, const NanoAddress*);
 
-	NANOSOCKETS_API NanoStatus nanosockets_get_option(NanoSocket, int, int, int*, int*);
-
 	NANOSOCKETS_API NanoStatus nanosockets_set_option(NanoSocket, int, int, const int*, int);
+
+	NANOSOCKETS_API NanoStatus nanosockets_get_option(NanoSocket, int, int, int*, int*);
 
 	NANOSOCKETS_API NanoStatus nanosockets_set_nonblocking(NanoSocket);
 
@@ -150,30 +150,6 @@ extern "C" {
 		}
 
 		return 0;
-	}
-
-	inline static size_t nanosockets_string_copy(char* destination, const char* source, size_t length) {
-		char* d = destination;
-		const char* s = source;
-		size_t n = length;
-
-		if (n != 0 && --n != 0) {
-			do {
-				if ((*d++ = *s++) == 0)
-					break;
-			}
-
-			while (--n != 0);
-		}
-
-		if (n == 0) {
-			if (length != 0)
-				*d = '\0';
-
-			while (*s++);
-		}
-
-		return (s - source - 1);
 	}
 
 	inline static void nanosockets_address_extract(NanoAddress* address, const struct sockaddr_storage* source) {
@@ -289,15 +265,15 @@ extern "C" {
 		return connect(socket, (struct sockaddr*)&socketAddress, sizeof(socketAddress));
 	}
 
-	NanoStatus nanosockets_get_option(NanoSocket socket, int level, int optionName, int* optionValue, int* optionLength) {
-		if (getsockopt(socket, level, optionName, (char*)optionValue, (socklen_t*)optionLength) == 0)
+	NanoStatus nanosockets_set_option(NanoSocket socket, int level, int optionName, const int* optionValue, int optionLength) {
+		if (setsockopt(socket, level, optionName, (const char*)optionValue, optionLength) == 0)
 			return NANOSOCKETS_STATUS_OK;
 		else
 			return NANOSOCKETS_STATUS_ERROR;
 	}
 
-	NanoStatus nanosockets_set_option(NanoSocket socket, int level, int optionName, const int* optionValue, int optionLength) {
-		if (setsockopt(socket, level, optionName, (const char*)optionValue, optionLength) == 0)
+	NanoStatus nanosockets_get_option(NanoSocket socket, int level, int optionName, int* optionValue, int* optionLength) {
+		if (getsockopt(socket, level, optionName, (char*)optionValue, (socklen_t*)optionLength) == 0)
 			return NANOSOCKETS_STATUS_OK;
 		else
 			return NANOSOCKETS_STATUS_ERROR;
@@ -396,11 +372,12 @@ extern "C" {
 	}
 
 	NanoStatus nanosockets_address_get_ip(const NanoAddress* address, char* ip, int ipLength) {
-		if (inet_ntop(AF_INET6, &address->ipv6, ip, ipLength) == NULL)
+		if (address->ipv4.ffff == 0xFFFF && nanosockets_array_is_zeroed(address->ipv4.zeros, sizeof(address->ipv4.zeros)) == 0) {
+			if (inet_ntop(AF_INET, &address->ipv4.ip, ip, ipLength) == NULL)
+				return NANOSOCKETS_STATUS_ERROR;
+		} else if (inet_ntop(AF_INET6, &address->ipv6, ip, ipLength) == NULL) {
 			return NANOSOCKETS_STATUS_ERROR;
-
-		if (nanosockets_array_is_zeroed(address->ipv4.zeros, sizeof(address->ipv4.zeros)) == 0 && address->ipv4.ffff == 0xFFFF)
-			nanosockets_string_copy(ip, ip + 7, ipLength);
+		}
 
 		return NANOSOCKETS_STATUS_OK;
 	}
