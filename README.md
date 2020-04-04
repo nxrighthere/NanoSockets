@@ -14,7 +14,7 @@ A managed assembly can be built using any available compiling platform that supp
 
 Compiled libraries
 --------
-You can grab compiled libraries from the [release](https://github.com/nxrighthere/NanoSockets/releases) section or from [NuGet](https://www.nuget.org/packages/NanoSockets).
+You can grab compiled libraries from the [release](https://github.com/nxrighthere/NanoSockets/releases) section.
 
 Binaries are provided only for traditional platforms: Windows, Linux, and macOS (x64).
 
