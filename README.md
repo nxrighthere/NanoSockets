@@ -2,7 +2,7 @@
   <img src="https://i.imgur.com/EqHM4Yz.png" alt="alt logo">
 </p>
 
-[![GitHub release](https://img.shields.io/github/release/nxrighthere/NanoSockets.svg)](https://github.com/nxrighthere/NanoSockets/releases) [![PayPal](https://github.com/Rageware/Shields/blob/master/paypal.svg)](https://www.paypal.me/nxrighthere) [![Bountysource](https://github.com/Rageware/Shields/blob/master/bountysource.svg)](https://salt.bountysource.com/checkout/amount?team=nxrighthere) [![Coinbase](https://github.com/Rageware/Shields/blob/master/coinbase.svg)](https://commerce.coinbase.com/checkout/03e11816-b6fc-4e14-b974-29a1d0886697)
+[![GitHub release](https://img.shields.io/github/release/nxrighthere/NanoSockets.svg?style=flat-square)](https://github.com/nxrighthere/NanoSockets/releases) [![PayPal](https://github.com/Rageware/Shields/blob/master/paypal.svg)](https://www.paypal.me/nxrighthere) [![Bountysource](https://github.com/Rageware/Shields/blob/master/bountysource.svg)](https://salt.bountysource.com/checkout/amount?team=nxrighthere) [![Coinbase](https://github.com/Rageware/Shields/blob/master/coinbase.svg)](https://commerce.coinbase.com/checkout/03e11816-b6fc-4e14-b974-29a1d0886697)
 
 This is a highly portable, lightweight and straightforward, zero-cost abstraction of UDP sockets with dual-stack IPv4/IPv6 support for rapid implementation of message-oriented protocols. The library is designed for cross-language compatibility with C, C++, C#, and other languages. For .NET environment, functions support blittable pointers as an alternative to managed types for usage with unmanaged memory allocator.
 
