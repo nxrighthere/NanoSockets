@@ -71,6 +71,9 @@ namespace NanoSockets {
 		public static extern void Destroy(ref Socket socket);
 
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_bind", CallingConvention = CallingConvention.Cdecl)]
+		public static extern int Bind(Socket socket, IntPtr address);
+
+		[DllImport(nativeLibrary, EntryPoint = "nanosockets_bind", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int Bind(Socket socket, ref Address address);
 
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_connect", CallingConvention = CallingConvention.Cdecl)]
@@ -89,10 +92,22 @@ namespace NanoSockets {
 		public static extern int Poll(Socket socket, long timeout);
 
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_send", CallingConvention = CallingConvention.Cdecl)]
+		public static extern int Send(Socket socket, IntPtr address, IntPtr buffer, int bufferLength);
+
+		[DllImport(nativeLibrary, EntryPoint = "nanosockets_send", CallingConvention = CallingConvention.Cdecl)]
+		public static extern int Send(Socket socket, IntPtr address, byte[] buffer, int bufferLength);
+
+		[DllImport(nativeLibrary, EntryPoint = "nanosockets_send", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int Send(Socket socket, ref Address address, IntPtr buffer, int bufferLength);
 
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_send", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int Send(Socket socket, ref Address address, byte[] buffer, int bufferLength);
+
+		[DllImport(nativeLibrary, EntryPoint = "nanosockets_receive", CallingConvention = CallingConvention.Cdecl)]
+		public static extern int Receive(Socket socket, IntPtr address, IntPtr buffer, int bufferLength);
+
+		[DllImport(nativeLibrary, EntryPoint = "nanosockets_receive", CallingConvention = CallingConvention.Cdecl)]
+		public static extern int Receive(Socket socket, IntPtr address, byte[] buffer, int bufferLength);
 
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_receive", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int Receive(Socket socket, ref Address address, IntPtr buffer, int bufferLength);
