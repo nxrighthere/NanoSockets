@@ -43,13 +43,64 @@ namespace NanoSockets {
 	}
 
 	[StructLayout(LayoutKind.Explicit, Size = 18)]
-	public struct Address {
+	public struct Address : IEquatable<Address> {
+		[FieldOffset(0)] 
+		ulong _address0;
+		
+		[FieldOffset(8)] 
+		ulong _address1;
+		
 		[FieldOffset(16)]
 		public ushort port;
+		
+		public bool Equals(Address other) {
+			return _address0 == other._address0 && _address1 == other._address1 && port == other.port;
+		}
+		
+		public override bool Equals(object obj) {
+			if (obj is Address) {
+				return Equals((Address)obj);
+			}
+
+			return false;
+		}
+
+		public override int GetHashCode() {
+			int hash = 17;
+			hash = hash * 31 + _address0.GetHashCode();
+			hash = hash * 31 + _address0.GetHashCode();
+			hash = hash * 31 + port.GetHashCode();
+			return hash;
+		}
+		
+		public override string ToString() {
+			StringBuilder sb   = new StringBuilder(64);
+			Address       self = this;
+			NanoSockets.UDP.GetIP(ref self, sb, 64);
+			return String.Format("[IP={0} Port={1}]", sb, self.port);
+		}
+		
+		public static Address CreateFromIpPort(string ip, ushort port) {
+			Address address = default(Address);
+			NanoSockets.UDP.SetIP(ref address, ip);
+			address.port = port;
+			return address;
+		}
 	}
 
 	[SuppressUnmanagedCodeSecurity]
 	public static class UDP {
+		
+#if NANOSOCKETS_UNSAFE_API
+		public static unsafe class Unsafe {
+			[DllImport(nativeLibrary, EntryPoint = "nanosockets_receive", CallingConvention = CallingConvention.Cdecl)]
+			public static extern int Receive(Socket socket, Address* address, byte* buffer, int bufferLength);
+
+			[DllImport(nativeLibrary, EntryPoint = "nanosockets_send", CallingConvention = CallingConvention.Cdecl)]
+			public static extern int Send(Socket socket, Address* address, byte* buffer, int bufferLength);
+		}
+#endif
+		
 		#if __IOS__ || UNITY_IOS && !UNITY_EDITOR
 			private const string nativeLibrary = "__Internal";
 		#else
