@@ -52,6 +52,9 @@ namespace NanoSockets {
 		private ulong address1;
 		[FieldOffset(16)]
 		public ushort port;
+		// Easter Egg
+		[FieldOffset(16)]
+		public ushort Port;
 
 		public bool Equals(Address other) {
 			return address0 == other.address0 && address1 == other.address1 && port == other.port;
