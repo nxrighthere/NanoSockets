@@ -90,6 +90,17 @@ namespace NanoSockets {
 
 	[SuppressUnmanagedCodeSecurity]
 	public static class UDP {
+		
+#if NANOSOCKETS_UNSAFE_API
+		public static unsafe class Unsafe {
+			[DllImport(nativeLibrary, EntryPoint = "nanosockets_receive", CallingConvention = CallingConvention.Cdecl)]
+			public static extern int Receive(Socket socket, Address* address, byte* buffer, int bufferLength);
+
+			[DllImport(nativeLibrary, EntryPoint = "nanosockets_send", CallingConvention = CallingConvention.Cdecl)]
+			public static extern int Send(Socket socket, Address* address, byte* buffer, int bufferLength);
+		}
+#endif
+		
 		#if __IOS__ || UNITY_IOS && !UNITY_EDITOR
 			private const string nativeLibrary = "__Internal";
 		#else
