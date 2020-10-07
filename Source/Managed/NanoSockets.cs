@@ -44,19 +44,19 @@ namespace NanoSockets {
 
 	[StructLayout(LayoutKind.Explicit, Size = 18)]
 	public struct Address : IEquatable<Address> {
-		[FieldOffset(0)]
-	  ulong _address0;
-  
-	  [FieldOffset(8)] 
-    ulong _address1;
-    
-    [FieldOffset(16)]
-    public ushort port;
+		[FieldOffset(0)] 
+		ulong _address0;
 		
-    public bool Equals(Address other) {
+		[FieldOffset(8)] 
+		ulong _address1;
+		
+		[FieldOffset(16)]
+		public ushort port;
+		
+		public bool Equals(Address other) {
 			return _address0 == other._address0 && _address1 == other._address1 && port == other.port;
 		}
-
+		
 		public override bool Equals(object obj) {
 			if (obj is Address) {
 				return Equals((Address)obj);
