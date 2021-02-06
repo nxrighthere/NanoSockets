@@ -312,7 +312,7 @@ extern "C" {
 
 			if (setsockopt(socket, IPPROTO_IPV6, IP_DONTFRAGMENT, (const char*)&dontFragment, sizeof(dontFragment)) != 0)
 				return NANOSOCKETS_STATUS_ERROR;
-		#elif defined IP_DF
+		#elif defined IPV6_DONTFRAG
 			int dontFragment = 1;
 
 			if (setsockopt(socket, IPPROTO_IPV6, IPV6_DONTFRAG, (const char*)&dontFragment, sizeof(dontFragment)) != 0)
