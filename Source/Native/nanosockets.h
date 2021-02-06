@@ -52,6 +52,7 @@
 	#include <ws2tcpip.h>
 #else
 	#include <netinet/in.h>
+	#include <netinet/in6.h>
 #endif
 
 #define NANOSOCKETS_HOSTNAME_SIZE 1025
@@ -311,7 +312,7 @@ extern "C" {
 		#elif defined IP_DF
 			int dontFragment = 1;
 
-			if (setsockopt(socket, IPPROTO_IPV6, IP_DF, (const char*)&dontFragment, sizeof(dontFragment)) != 0)
+			if (setsockopt(socket, IPPROTO_IPV6, IPV6_DONTFRAG, (const char*)&dontFragment, sizeof(dontFragment)) != 0)
 				return NANOSOCKETS_STATUS_ERROR;
 		#else
 			int dontFragment = IP_PMTUDISC_DONT;
