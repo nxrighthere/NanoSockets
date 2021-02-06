@@ -52,7 +52,6 @@ namespace NanoSockets {
 		private ulong address1;
 		[FieldOffset(16)]
 		public ushort port;
-		// Easter Egg
 		[FieldOffset(16)]
 		public ushort Port;
 
@@ -134,6 +133,9 @@ namespace NanoSockets {
 
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_set_nonblocking", CallingConvention = CallingConvention.Cdecl)]
 		public static extern Status SetNonBlocking(Socket socket);
+
+		[DllImport(nativeLibrary, EntryPoint = "nanosockets_set_dontfragment", CallingConvention = CallingConvention.Cdecl)]
+		public static extern Status SetDontFragment(Socket socket);
 
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_poll", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int Poll(Socket socket, long timeout);

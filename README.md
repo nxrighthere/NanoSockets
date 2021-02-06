@@ -43,7 +43,11 @@ if (UDP.SetIP(ref listenAddress, "::0") == Status.OK)
 if (UDP.Bind(server, ref listenAddress) == 0)
     Console.WriteLine("Socket bound!");
 
-UDP.SetNonBlocking(server);
+if (UDP.SetDontFragment(server) != Status.OK)
+    Console.WriteLine("Don't fragment option error!");
+
+if (UDP.SetNonBlocking(server) != Status.OK)
+    Console.WriteLine("Non-blocking option error!");
 
 StringBuilder ip = new StringBuilder(UDP.hostNameSize);
 Address address = new Address();
@@ -79,7 +83,11 @@ if (UDP.SetIP(ref connectionAddress, "::1") == Status.OK)
 if (UDP.Connect(client, ref connectionAddress) == 0)
     Console.WriteLine("Socket connected!");
 
-UDP.SetNonBlocking(client);
+if (UDP.SetDontFragment(client) != Status.OK)
+    Console.WriteLine("Don't fragment option error!");
+
+if (UDP.SetNonBlocking(client) != Status.OK)
+    Console.WriteLine("Non-blocking option error!");
 
 byte[] buffer = new byte[1024];
 
@@ -145,6 +153,8 @@ Contains a blittable structure with anonymous host data and port number.
 `UDP.GetOption(Socket socket, int level, int optionName, ref int optionValue, ref int optionLength)` gets the current value for a socket option associated with a socket. A length of an option value should be initially set to an appropriate size. Returns status with a result.
 
 `UDP.SetNonBlocking(Socket socket)` sets a non-blocking I/O mode for a socket. Returns status with a result.
+
+`UDP.SetDontFragment(Socket socket)` sets a don't fragment mode for a socket. Returns status with a result.
 
 `UDP.Poll(Socket socket, long timeout)` determines the status of a socket and waiting if necessary. This function can be used for readiness-oriented receiving. The timeout parameter may be specified in milliseconds to control polling duration. If a timeout of 0 is specified, this function will return immediately. If the time limit expired it will return 0. If a socket is ready for receiving it will return 1. Otherwise, it will return < 0 if an error occurred.
 

@@ -28,7 +28,7 @@
 
 #define NANOSOCKETS_VERSION_MAJOR 1
 #define NANOSOCKETS_VERSION_MINOR 0
-#define NANOSOCKETS_VERSION_PATCH 4
+#define NANOSOCKETS_VERSION_PATCH 5
 
 #ifdef _WIN32
 	#define NANOSOCKETS_WINDOWS 1
@@ -98,6 +98,8 @@ extern "C" {
 	NANOSOCKETS_API NanoStatus nanosockets_get_option(NanoSocket, int, int, int*, int*);
 
 	NANOSOCKETS_API NanoStatus nanosockets_set_nonblocking(NanoSocket);
+
+	NANOSOCKETS_API NanoStatus nanosockets_set_dontfragment(NanoSocket);
 
 	NANOSOCKETS_API int nanosockets_poll(NanoSocket, long);
 
@@ -289,6 +291,27 @@ extern "C" {
 			int nonBlocking = 1;
 
 			if (fcntl(socket, F_SETFL, O_NONBLOCK, nonBlocking) == -1)
+				return NANOSOCKETS_STATUS_ERROR;
+		#endif
+
+		return NANOSOCKETS_STATUS_OK;
+	}
+
+	NanoStatus nanosockets_set_dontfragment(NanoSocket socket) {
+		#ifdef IP_DONTFRAG
+			int dontFragment = 1;
+
+			if (setsockopt(socket, IPPROTO_IPV6, IP_DONTFRAG, (const char*)&dontFragment, sizeof(dontFragment)) != 0)
+				return NANOSOCKETS_STATUS_ERROR;
+		#elif defined IP_DONTFRAGMENT
+			DWORD dontFragment = 1;
+
+			if (setsockopt(socket, IPPROTO_IPV6, IP_DONTFRAGMENT, (const char*)&dontFragment, sizeof(dontFragment)) != 0)
+				return NANOSOCKETS_STATUS_ERROR;
+		#else
+			int dontFragment = IP_PMTUDISC_DONT;
+
+			if (setsockopt(socket, IPPROTO_IPV6, IP_MTU_DISCOVER, (const char*)&dontFragment, sizeof(dontFragment)) != 0)
 				return NANOSOCKETS_STATUS_ERROR;
 		#endif
 
