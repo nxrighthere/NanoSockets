@@ -52,10 +52,6 @@
 	#include <ws2tcpip.h>
 #else
 	#include <netinet/in.h>
-
-	#ifdef NANOSOCKETS_MAC
-		#include <netinet6/in6.h>
-	#endif
 #endif
 
 #define NANOSOCKETS_HOSTNAME_SIZE 1025
