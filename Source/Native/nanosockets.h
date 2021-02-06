@@ -51,6 +51,10 @@
 #ifdef NANOSOCKETS_WINDOWS
 	#include <ws2tcpip.h>
 #else
+	#ifdef NANOSOCKETS_MAC
+		#define __APPLE_USE_RFC_3542
+	#endif
+
 	#include <netinet/in.h>
 #endif
 
