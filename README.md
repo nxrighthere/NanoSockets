@@ -30,7 +30,7 @@ Before starting to work, the library should be initialized using `NanoSockets.UD
 After the work is done, deinitialize the library using `NanoSockets.UDP.Deinitialize();` function.
 
 ### .NET environment
-##### Start a new server:
+##### Start a new server
 ```c#
 Socket server = UDP.Create(256 * 1024, 256 * 1024);
 Address listenAddress = new Address();
@@ -70,7 +70,7 @@ while (!Console.KeyAvailable) {
 UDP.Destroy(ref server);
 ```
 
-##### Start a new client:
+##### Start a new client
 ```c#
 Socket client = UDP.Create(256 * 1024, 256 * 1024);
 Address connectionAddress = new Address();
