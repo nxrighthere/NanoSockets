@@ -101,7 +101,7 @@ extern "C" {
 
 	NANOSOCKETS_API NanoStatus nanosockets_get_option(NanoSocket, int, int, int*, int*);
 
-	NANOSOCKETS_API NanoStatus nanosockets_set_nonblocking(NanoSocket);
+	NANOSOCKETS_API NanoStatus nanosockets_set_nonblocking(NanoSocket, uint8_t);
 
 	NANOSOCKETS_API NanoStatus nanosockets_set_dontfragment(NanoSocket);
 
@@ -289,14 +289,14 @@ extern "C" {
 			return NANOSOCKETS_STATUS_ERROR;
 	}
 
-	NanoStatus nanosockets_set_nonblocking(NanoSocket socket) {
+	NanoStatus nanosockets_set_nonblocking(NanoSocket socket, uint8_t state) {
 		#ifdef NANOSOCKETS_WINDOWS
-			DWORD nonBlocking = 1;
+			DWORD nonBlocking = state;
 
 			if (ioctlsocket(socket, FIONBIO, &nonBlocking) != 0)
 				return NANOSOCKETS_STATUS_ERROR;
 		#else
-			int nonBlocking = 1;
+			int nonBlocking = state;
 
 			if (fcntl(socket, F_SETFL, O_NONBLOCK, nonBlocking) == -1)
 				return NANOSOCKETS_STATUS_ERROR;
