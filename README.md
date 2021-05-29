@@ -10,7 +10,7 @@ Building
 --------
 The native library can be built using [CMake](https://cmake.org/download/) with GNU Make or Visual Studio.
 
-A managed assembly can be built using any available compiling platform that supports C# 3.0 or higher.
+A managed assembly can be built using any available compiling platform that supports C# 4.0 or higher.
 
 Usage
 --------
