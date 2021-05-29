@@ -322,10 +322,7 @@ extern "C" {
 			if (setsockopt(socket, IPPROTO_IPV6, IPV6_DONTFRAG, (const char*)&dontFragment, sizeof(dontFragment)) != 0)
 				return NANOSOCKETS_STATUS_ERROR;
 		#else
-			int dontFragment = IP_PMTUDISC_DONT;
-
-			if (setsockopt(socket, IPPROTO_IPV6, IP_MTU_DISCOVER, (const char*)&dontFragment, sizeof(dontFragment)) != 0)
-				return NANOSOCKETS_STATUS_ERROR;
+			#error "Don't fragment socket option is not implemented for this platform"
 		#endif
 
 		return NANOSOCKETS_STATUS_OK;
