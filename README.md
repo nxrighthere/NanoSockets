@@ -152,7 +152,7 @@ Contains a blittable structure with anonymous host data and port number.
 
 `UDP.GetOption(Socket socket, int level, int optionName, ref int optionValue, ref int optionLength)` gets the current value for a socket option associated with a socket. A length of an option value should be initially set to an appropriate size. Returns status with a result.
 
-`UDP.SetNonBlocking(Socket socket)` sets a non-blocking I/O mode for a socket. Returns status with a result.
+`UDP.SetNonBlocking(Socket socket, bool shouldBlock)` sets a non-blocking I/O mode for a socket. Returns status with a result.
 
 `UDP.SetDontFragment(Socket socket)` sets a don't fragment mode for a socket. Returns status with a result.
 
