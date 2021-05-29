@@ -101,7 +101,7 @@ extern "C" {
 
 	NANOSOCKETS_API NanoStatus nanosockets_get_option(NanoSocket, int, int, int*, int*);
 
-	NANOSOCKETS_API NanoStatus nanosockets_set_nonblocking(NanoSocket);
+	NANOSOCKETS_API NanoStatus nanosockets_set_nonblocking(NanoSocket, uint8_t);
 
 	NANOSOCKETS_API NanoStatus nanosockets_set_dontfragment(NanoSocket);
 
@@ -109,7 +109,11 @@ extern "C" {
 
 	NANOSOCKETS_API int nanosockets_send(NanoSocket, const NanoAddress*, const uint8_t*, int);
 
+	NANOSOCKETS_API int nanosockets_send_offset(NanoSocket, const NanoAddress*, const uint8_t*, int, int);
+
 	NANOSOCKETS_API int nanosockets_receive(NanoSocket, NanoAddress*, uint8_t*, int);
+
+	NANOSOCKETS_API int nanosockets_receive_offset(NanoSocket, NanoAddress*, uint8_t*, int, int);
 
 	NANOSOCKETS_API NanoStatus nanosockets_address_get(NanoSocket, NanoAddress*);
 
@@ -285,14 +289,14 @@ extern "C" {
 			return NANOSOCKETS_STATUS_ERROR;
 	}
 
-	NanoStatus nanosockets_set_nonblocking(NanoSocket socket) {
+	NanoStatus nanosockets_set_nonblocking(NanoSocket socket, uint8_t state) {
 		#ifdef NANOSOCKETS_WINDOWS
-			DWORD nonBlocking = 1;
+			DWORD nonBlocking = state;
 
 			if (ioctlsocket(socket, FIONBIO, &nonBlocking) != 0)
 				return NANOSOCKETS_STATUS_ERROR;
 		#else
-			int nonBlocking = 1;
+			int nonBlocking = state;
 
 			if (fcntl(socket, F_SETFL, O_NONBLOCK, nonBlocking) == -1)
 				return NANOSOCKETS_STATUS_ERROR;
@@ -353,6 +357,10 @@ extern "C" {
 		return sendto(socket, (const char*)buffer, bufferLength, 0, (address != NULL ? (struct sockaddr*)&socketAddress : NULL), sizeof(socketAddress));
 	}
 
+	int nanosockets_send_offset(NanoSocket socket, const NanoAddress* address, const uint8_t* buffer, int offset, int bufferLength) {
+		return nanosockets_send(socket, address, buffer + offset, bufferLength);
+	}
+
 	int nanosockets_receive(NanoSocket socket, NanoAddress* address, uint8_t* buffer, int bufferLength) {
 		struct sockaddr_storage addressStorage = { 0 };
 		socklen_t addressLength = sizeof(addressStorage);
@@ -363,6 +371,10 @@ extern "C" {
 			nanosockets_address_extract(address, &addressStorage);
 
 		return socketBytes;
+	}
+
+	int nanosockets_receive_offset(NanoSocket socket, NanoAddress* address, uint8_t* buffer, int offset, int bufferLength) {
+		return nanosockets_receive(socket, address, buffer + offset, bufferLength);
 	}
 
 	NanoStatus nanosockets_address_get(NanoSocket socket, NanoAddress* address) {

@@ -131,10 +131,13 @@ namespace NanoSockets {
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_get_option", CallingConvention = CallingConvention.Cdecl)]
 		public static extern Status GetOption(Socket socket, int level, int optionName, ref int optionValue, ref int optionLength);
 
-		[DllImport(nativeLibrary, EntryPoint = "nanosockets_set_nonblocking", CallingConvention = CallingConvention.Cdecl)]
-		public static extern Status SetNonBlocking(Socket socket);
+        	public static Status SetNonBlocking(Socket socket, bool shouldBlock = false)
+                	=> SetNonBlocking(socket, shouldBlock ? 0 : 1);
 
-		[DllImport(nativeLibrary, EntryPoint = "nanosockets_set_dontfragment", CallingConvention = CallingConvention.Cdecl)]
+        	[DllImport(nativeLibrary, EntryPoint = "nanosockets_set_nonblocking", CallingConvention = CallingConvention.Cdecl)]
+        	private static extern Status SetNonBlocking(Socket socket, byte state);
+
+        	[DllImport(nativeLibrary, EntryPoint = "nanosockets_set_dontfragment", CallingConvention = CallingConvention.Cdecl)]
 		public static extern Status SetDontFragment(Socket socket);
 
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_poll", CallingConvention = CallingConvention.Cdecl)]
@@ -152,7 +155,13 @@ namespace NanoSockets {
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_send", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int Send(Socket socket, ref Address address, byte[] buffer, int bufferLength);
 
-		[DllImport(nativeLibrary, EntryPoint = "nanosockets_receive", CallingConvention = CallingConvention.Cdecl)]
+        	[DllImport(nativeLibrary, EntryPoint = "nanosockets_send_offset", CallingConvention = CallingConvention.Cdecl)]
+        	public static extern int Send(Socket socket, IntPtr address, byte[] buffer, int offset, int bufferLength);
+
+        	[DllImport(nativeLibrary, EntryPoint = "nanosockets_send_offset", CallingConvention = CallingConvention.Cdecl)]
+        	public static extern int Send(Socket socket, ref Address address, byte[] buffer, int offset, int bufferLength);
+
+        	[DllImport(nativeLibrary, EntryPoint = "nanosockets_receive", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int Receive(Socket socket, IntPtr address, IntPtr buffer, int bufferLength);
 
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_receive", CallingConvention = CallingConvention.Cdecl)]
@@ -164,7 +173,13 @@ namespace NanoSockets {
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_receive", CallingConvention = CallingConvention.Cdecl)]
 		public static extern int Receive(Socket socket, ref Address address, byte[] buffer, int bufferLength);
 
-		[DllImport(nativeLibrary, EntryPoint = "nanosockets_address_get", CallingConvention = CallingConvention.Cdecl)]
+        	[DllImport(nativeLibrary, EntryPoint = "nanosockets_receive_offset", CallingConvention = CallingConvention.Cdecl)]
+        	public static extern int Receive(Socket socket, IntPtr address, byte[] buffer, int offset, int bufferLength);
+
+        	[DllImport(nativeLibrary, EntryPoint = "nanosockets_receive_offset", CallingConvention = CallingConvention.Cdecl)]
+        	public static extern int Receive(Socket socket, ref Address address, byte[] buffer, int offset, int bufferLength);
+
+        	[DllImport(nativeLibrary, EntryPoint = "nanosockets_address_get", CallingConvention = CallingConvention.Cdecl)]
 		public static extern Status GetAddress(Socket socket, ref Address address);
 
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_address_is_equal", CallingConvention = CallingConvention.Cdecl)]
