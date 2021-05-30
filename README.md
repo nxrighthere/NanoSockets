@@ -12,6 +12,17 @@ The native library can be built using [CMake](https://cmake.org/download/) with 
 
 A managed assembly can be built using any available compiling platform that supports C# 4.0 or higher.
 
+Compiled libraries
+--------
+You can grab compiled libraries from the [release](https://github.com/nxrighthere/NanoSockets/releases) section.
+
+Binaries are provided only for traditional platforms: Windows, Linux, and macOS (x64).
+
+Supported OS versions:
+- Windows 7 or higher
+- Linux 4.4 or higher
+- macOS 10.12 or higher
+
 Usage
 --------
 Before starting to work, the library should be initialized using `NanoSockets.UDP.Initialize();` function.
