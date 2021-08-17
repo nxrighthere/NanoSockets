@@ -131,8 +131,7 @@ namespace NanoSockets {
 		[DllImport(nativeLibrary, EntryPoint = "nanosockets_get_option", CallingConvention = CallingConvention.Cdecl)]
 		public static extern Status GetOption(Socket socket, int level, int optionName, ref int optionValue, ref int optionLength);
 
-        	public static Status SetNonBlocking(Socket socket, bool shouldBlock = false)
-                	=> SetNonBlocking(socket, shouldBlock ? 0 : 1);
+        	public static Status SetNonBlocking(Socket socket, bool shouldBlock = false) => SetNonBlocking(socket, shouldBlock ? 0 : 1);
 
         	[DllImport(nativeLibrary, EntryPoint = "nanosockets_set_nonblocking", CallingConvention = CallingConvention.Cdecl)]
         	private static extern Status SetNonBlocking(Socket socket, byte state);
